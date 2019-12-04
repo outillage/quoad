@@ -5,9 +5,10 @@ import "encoding/hex"
 // Commit is a parsed commit that contains information about category, scope and heading
 type Commit struct {
 	Category string
+	Scope    string
+	Breaking bool
 	Heading  string
 	Body     string
-	Scope    string
 	Hash     Hash
 	Issues   []int
 }

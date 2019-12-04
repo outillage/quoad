@@ -10,7 +10,7 @@ import (
 var (
 	referenceFormatRegex   = regexp.MustCompile(`Refs:?[^\r\n]*`)
 	referenceIDFormatRegex = regexp.MustCompile(`\#([0-9]+)`)
-	expectedFormatRegex    = regexp.MustCompile(`(?s)^(?P<category>\S+?)?(?P<scope>\(\S+\))?(?P<breaking>!?)?: (?P<heading>[^\n\r]+)?([\n\r]{2}(?P<body>.*))?`)
+	expectedFormatRegex    = regexp.MustCompile(`(?s)^(?P<category>\w+?)?(?P<scope>\(\S+\))?(?P<breaking>!?)?: (?P<heading>[^\n\r]+)?([\n\r]{2}(?P<body>.*))?`)
 )
 
 // GetIssueNumbers converts the matches from the reference regular expression to integers
@@ -57,8 +57,15 @@ func ParseCommitMessage(commitMessage string) Commit {
 		scope = strings.Replace(scope, "(", "", 1)
 		scope = strings.Replace(scope, ")", "", 1)
 
-		return Commit{Category: category, Heading: heading, Scope: scope, Body: strings.TrimRight(body, "\r\n\t "), Issues: GetIssueNumbers(references)}
+		return Commit{
+			Category: category,
+			Heading:  heading,
+			Scope:    scope,
+			Breaking: result["breaking"] == "!",
+			Body:     strings.TrimRight(body, "\r\n\t "),
+			Issues:   GetIssueNumbers(references),
+		}
 	}
 
-	return Commit{Category: "other", Heading: commitMessage, Scope: ""}
+	return Commit{Heading: commitMessage}
 }
