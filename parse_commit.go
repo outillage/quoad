@@ -10,7 +10,7 @@ import (
 var (
 	referenceFormatRegex   = regexp.MustCompile(`Refs:?[^\r\n]*`)
 	referenceIDFormatRegex = regexp.MustCompile(`\#([0-9]+)`)
-	expectedFormatRegex    = regexp.MustCompile(`(?s)^(?P<category>\w+?)?(?P<scope>\(\S+\))?(?P<breaking>!?)?: (?P<heading>[^\n\r]+)?([\n\r]{2}(?P<body>.*))?`)
+	expectedFormatRegex    = regexp.MustCompile(`(?s)^(?P<category>\w+?)?(?P<scope>\([^\)]+\))?(?P<breaking>!?)?: (?P<heading>[^\n\r]+)?([\n\r]{2}(?P<body>.*))?`)
 )
 
 // GetIssueNumbers converts the matches from the reference regular expression to integers
