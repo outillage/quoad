@@ -21,8 +21,8 @@ func TestParseCommitMessage(t *testing.T) {
 		"chore: test\n\nsomething more here\nRefs: #12 and #13":             Commit{Category: "chore", Scope: "", Heading: "test", Body: "something more here", Issues: []int{12, 13}},
 		"chore: add something\n":                                            Commit{Category: "chore", Heading: "add something"},
 		"chore(ci): added new CI stuff\n":                                   Commit{Category: "chore", Scope: "ci", Heading: "added new CI stuff"},
-                "chore(a b c d): added new CI stuff\n":                              Commit{Category: "chore", Scope: "a b c d", Heading: "added new CI stuff"},
-                "chore(><(((*>): added new CI stuff\n":                              Commit{Category: "chore", Scope: "><(((*>", Heading: "added new CI stuff"},
+		"chore(a b c d): added new CI stuff\n":                              Commit{Category: "chore", Scope: "a b c d", Heading: "added new CI stuff"},
+		"chore(><(((*>): added new CI stuff\n":                              Commit{Category: "chore", Scope: "><(((*>", Heading: "added new CI stuff"},
 		"feat: added a new feature\n":                                       Commit{Category: "feat", Heading: "added a new feature"},
 		"fix!: breaking change\n":                                           Commit{Category: "fix", Breaking: true, Heading: "breaking change"},
 		"fix(security)!: breaking\n":                                        Commit{Category: "fix", Scope: "security", Breaking: true, Heading: "breaking"},
@@ -34,6 +34,7 @@ func TestParseCommitMessage(t *testing.T) {
 		": nope\n":                                                          Commit{Heading: "nope"},
 		"fix tests\n":                                                       Commit{Heading: "fix tests\n"},
 		"test(full): a heading\n\nbody is here\nit can have multiple lines": Commit{Category: "test", Scope: "full", Heading: "a heading", Body: "body is here\nit can have multiple lines"},
+		"test(dashed-scope): some heading\n":                                Commit{Category: "test", Scope: "dashed-scope", Heading: "some heading"},
 	}
 
 	for test, expected := range tests {
